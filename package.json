@@ -1,6 +1,6 @@
 {
   "name": "knexer-jsx",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A small React-like library with support for function comnponents and hooks",
   "main": "dist/knexer.js",
   "scripts": {
@@ -20,7 +20,9 @@
     "type": "git",
     "url": "https://github.com/fangwd/knexer-jsx"
   },
-  "keywords": ["React-like"],
+  "keywords": [
+    "React-like"
+  ],
   "author": "Weidong Fang",
   "license": "MIT",
   "devDependencies": {
