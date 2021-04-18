@@ -1,6 +1,6 @@
 {
   "name": "knexer-jsx",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A small React-like library with support for function comnponents and hooks",
   "main": "dist/knexer.js",
   "scripts": {
