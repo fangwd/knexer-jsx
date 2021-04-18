@@ -19,6 +19,20 @@ describe('mount()', () => {
     expect(prev).toBe(next);
     expect(root.innerHTML).toBe('<h1>world</h1>');
   });
+  test('component', () => {
+    const Item = ({ title }: { title: string }) => <div>{title}</div>;
+    const List = ({ items }: { items: Array<{ title: string }> }) => (
+      <div>
+        {items.map((item) => (
+          <Item key={item.title} title={item.title} />
+        ))}
+      </div>
+    );
+    const items = [{ title: 'hello' }, { title: 'world' }];
+    const root = document.createElement('div');
+    mount(root, <List items={items} />);
+    expect(root.innerHTML).toBe('<div><div>hello</div><div>world</div></div>');
+  });
 });
 
 describe('unmount()', () => {

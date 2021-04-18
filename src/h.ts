@@ -4,7 +4,7 @@ import {
   VirtualElementNode,
   VirtualNode,
 } from './types';
-import { isString } from './util';
+import {  isString } from './util';
 
 function h(
   name: string | ((props: Props) => VirtualNode[]),
@@ -20,6 +20,8 @@ function h(
     ref = attributes['ref'];
     delete attributes['ref'];
   }
+  // Note: IE doesn't support flat()
+  children = children.flat();
   return isString(name)
     ? ({ key, name, ref, attributes, children } as VirtualElementNode)
     : ({
