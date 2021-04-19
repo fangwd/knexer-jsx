@@ -84,7 +84,7 @@ export function update(
 }
 
 function shouldCall(next: Props, prev: Props) {
-  if (next.children.length > 0 || prev.children.length > 0) {
+  if (next.children.length || prev.children.length) {
     return true;
   }
   for (const key in next) {
@@ -127,9 +127,17 @@ export function create(data: StringVirtualNode | any): RealNode {
 export function setAttribute(
   node: ElementNode,
   name: string,
-  value?: string | { [key: string]: string } | ((event: any) => void),
+  value?: string | { [key: string]: string } | ((event: any) => void) | boolean,
 ) {
-  if (name.startsWith('on')) {
+  if (name === 'value') {
+    (node.element as HTMLInputElement).value = value + '';
+    return;
+  }
+  if (name === 'checked') {
+    (node.element as HTMLInputElement).checked = !!value;
+    return;
+  }
+  if (/^on/.test(name)) {
     const event = name.substring(2).toLocaleLowerCase();
     node.handlers = node.handlers || {};
     if (node.handlers[event]) {

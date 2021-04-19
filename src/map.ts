@@ -19,7 +19,7 @@ import { unmount } from './mount';
 function push<K, V>(map: Map<K, List<V>>, key: K, data: V) {
   let list = map.get(key);
   if (!list) {
-    list = { first: undefined, last: undefined };
+    list = {};
     map.set(key, list);
   }
   _push(list, data);
@@ -39,9 +39,13 @@ export function NodeMap(nodes: RealNode[]) {
   const textList: List<TextNode> = {};
 
   const add = (node: RealNode) => {
-    if ((node as ElementNode).name === undefined) {
+    if (!(node as ElementNode).name) {
       _push(textList, node);
     } else if ((node as NonTextNode).key !== undefined) {
+      const prev = keyMap.get((node as NonTextNode).key);
+      if (prev) {
+        unmount(prev);
+      }
       keyMap.set((node as NonTextNode).key, node as NonTextNode);
     } else {
       if (isString((node as NonTextNode).name)) {

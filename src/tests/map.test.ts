@@ -105,6 +105,21 @@ test('update (element.children)', () => {
   expect(fn).not.toBeCalled();
 });
 
+test('store.add (unmount duplicate keys)', () => {
+  const fake = buildFakeElementNode();
+  const prev = fake.children[0] as ElementNode;
+  const spy = spyOn(fake.element, 'removeChild');
+  const map = NodeMap(fake.children);
+  map.add({
+    name: 'p',
+    key: '1',
+    attributes: {},
+    children: [],
+    element:document.createElement('p'),
+  } as RealNode);
+  expect(spy).toBeCalledWith(prev.element);
+});
+
 function buildFakeElementNode() {
   const factory = jest.fn();
 

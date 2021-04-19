@@ -1,10 +1,8 @@
 import { cleanup } from './hooks';
 import { create, update, insert } from './update';
-import { isString } from './util';
 import {
   VirtualNode,
   RealNode,
-  TextNode,
   ElementNode,
   ComponentNode,
 } from './types';
@@ -26,16 +24,12 @@ export function mount(
 }
 
 export function unmount(node: RealNode) {
-  if (!(node as VirtualNode).name) {
-    (node as TextNode).element.parentNode!.removeChild(
-      (node as TextNode).element,
-    );
-  } else if (isString((node as ElementNode).name)) {
+  if (typeof (node as ComponentNode).name === 'function') {
+    (node as ComponentNode).result.forEach((node) => unmount(node));
+    cleanup(node as ComponentNode);
+  } else {
     (node as ElementNode).element.parentNode!.removeChild(
       (node as ElementNode).element,
     );
-  } else {
-    (node as ComponentNode).result.forEach((node) => unmount(node));
-    cleanup(node as ComponentNode);
   }
 }

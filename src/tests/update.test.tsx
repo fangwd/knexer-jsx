@@ -160,6 +160,24 @@ describe('setAttribute()', () => {
     const node = create(data) as ElementNode;
     expect(node.element.getAttribute('src')).toBe(null);
   });
+
+  test('setting value', () => {
+    const data = <input />;
+    const node = create(data) as ElementNode;
+    setAttribute(node, 'value', 'hello');
+    expect((node.element as HTMLInputElement).value).toBe('hello');
+    setAttribute(node, 'value', '');
+    expect((node.element as HTMLInputElement).value).toBe('');
+  });
+
+  test('setting checked', () => {
+    const data = <input type="checkbox" />;
+    const node = create(data) as ElementNode;
+    setAttribute(node, 'checked', true);
+    expect((node.element as HTMLInputElement).checked).toBe(true);
+    setAttribute(node, 'checked', false);
+    expect((node.element as HTMLInputElement).checked).toBe(false);
+  });
 });
 
 describe('update()', () => {

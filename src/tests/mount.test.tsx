@@ -36,7 +36,15 @@ describe('mount()', () => {
 });
 
 describe('unmount()', () => {
-  test('text nodes', () => {
+  test('text nodes #1', () => {
+    const root = document.createElement('div');
+    const node = mount(root, 'hello');
+    expect(root.innerHTML).toBe('hello');
+    unmount(node);
+    expect(root.innerHTML).toBe('');
+  });
+
+  test('text nodes #2', () => {
     const root = document.createElement('div');
     const node = mount(root, <h1>hello</h1>);
     mount(root, <h1></h1>, node);
