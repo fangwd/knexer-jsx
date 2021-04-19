@@ -9,7 +9,6 @@ import { isString } from './util';
 function h(
   name: string | ((props: Props) => VirtualNode[]),
   attributes: { [key: string]: any } | null,
-  ...children: any[]
 ): VirtualElementNode | VirtualComponentNode {
   attributes = attributes || {};
   let key, ref;
@@ -20,6 +19,10 @@ function h(
   if ('ref' in attributes) {
     ref = attributes['ref'];
     delete attributes['ref'];
+  }
+  let children = [];
+  for (let i = 2; i < arguments.length; i++) {
+      arguments[i] && children.push(arguments[i]);
   }
   // Note: IE doesn't support flat()
   children = children.flat();
