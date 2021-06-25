@@ -22,7 +22,7 @@ function h(
   }
   let children = [];
   for (let i = 2; i < arguments.length; i++) {
-      arguments[i] && children.push(arguments[i]);
+      children.push(arguments[i]);
   }
   // Note: IE doesn't support flat()
   children = children.flat();
