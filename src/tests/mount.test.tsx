@@ -1,7 +1,7 @@
 /** @jsx h */
 
 import { h } from '../h';
-import { useEffect } from '../hooks';
+import { useEffect, useState } from '../hooks';
 import { mount, unmount } from '../mount';
 import { ElementNode } from '../types';
 
@@ -33,6 +33,26 @@ describe('mount()', () => {
     mount(root, <List items={items} />);
     expect(root.innerHTML).toBe('<div><div>hello</div><div>world</div></div>');
   });
+
+  // test('edgy', (done) => {
+  //   const Item = ({ message }: { message: string }) => <p>{message}</p>;
+  //   const Main = () => {
+  //     const [message, setMessage] = useState('hello');
+  //     useEffect(() => {
+  //       setTimeout(() => setMessage('world'), 100);
+  //     }, []);
+  //     if (message === 'hello') return <h2></h2>;
+  //     return <h3><Item message={message} /></h3>;
+  //   };
+  //   const root = document.createElement('div');
+  //   mount(root, <Main />);
+  //   // This is a known bug: in updateAll, when a new node doesn't have a matched
+  //   // existing one, there's no way to insert the new node to the DOM.
+  //   setTimeout(() => {
+  //     expect(root.innerHTML).toBe('<h3><p>world</p></h3>');
+  //     done();
+  //   }, 500);
+  // });
 });
 
 describe('unmount()', () => {
