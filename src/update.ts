@@ -17,10 +17,17 @@ import { execute } from './hooks';
 export function updateAll(
   next: StringVirtualNode[],
   prev: RealNode[],
+  insert: {
+    parent: HTMLElement,
+    before: HTMLElement | null,
+  } | undefined = undefined
 ): RealNode[] {
   const map = NodeMap(prev);
   for (let i = 0; i < next.length; i++) {
     next[i] = update(next[i], map.remove(next[i])) as StringVirtualNode;
+  }
+  if (insert) {
+    insertAll(insert.parent, next as RealNode[], insert.before)
   }
   map.destroy();
   return next as RealNode[];

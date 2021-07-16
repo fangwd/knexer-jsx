@@ -5,6 +5,8 @@ import {
   StateHook,
   EffectHook,
   MemoHook,
+  RealNode,
+  ElementNode,
 } from './types';
 import { updateAll } from './update';
 
@@ -45,7 +47,11 @@ export function useState<S>(initial: S): [S, (s: S) => void] {
     hook.state,
     (next: S) => {
       hook.state = next;
-      current.result = updateAll(execute(current), current.result);
+      current.result = updateAll(
+        execute(current),
+        current.result,
+        getLast(current.result[current.result.length - 1]),
+      );
     },
   ];
 }
@@ -98,4 +104,19 @@ export function cleanup(node: ComponentNode) {
   for (const effect of node.hooks) {
     (effect as EffectHook).cleanup && (effect as EffectHook).cleanup!();
   }
+}
+
+function getLast(node: RealNode): {
+  parent: HTMLElement;
+  before: HTMLElement | null;
+} {
+  const result = (node as ComponentNode).result;
+  if (result) {
+    return getLast(result[result.length - 1]);
+  }
+  const element = (node as ElementNode).element;
+  return {
+    parent: element.parentElement!,
+    before: element.nextSibling as HTMLElement,
+  };
 }
