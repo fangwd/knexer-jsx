@@ -178,6 +178,26 @@ describe('setAttribute()', () => {
     setAttribute(node, 'checked', false);
     expect((node.element as HTMLInputElement).checked).toBe(false);
   });
+
+  test('dangerouslySetInnerHTML (html)', () => {
+    const data = <div contentEditable="true" />;
+    const node = create(data) as ElementNode;
+    setAttribute(node, 'dangerouslySetInnerHTML', {
+      __html: '<span>hello</span>',
+    });
+    expect(node.element.innerHTML).toBe('<span>hello</span>');
+  });
+
+  test('dangerouslySetInnerHTML (text)', () => {
+    const data = (
+      <div
+        contentEditable="true"
+        dangerouslySetInnerHTML={{ __html: '' }}
+      ></div>
+    );
+    const node = create(data) as ElementNode;
+    expect(node.element.innerHTML).toBe('');
+  });
 });
 
 describe('update()', () => {

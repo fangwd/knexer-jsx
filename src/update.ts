@@ -17,17 +17,19 @@ import { execute } from './hooks';
 export function updateAll(
   next: StringVirtualNode[],
   prev: RealNode[],
-  insert: {
-    parent: HTMLElement,
-    before: HTMLElement | null,
-  } | undefined = undefined
+  insert:
+    | {
+        parent: HTMLElement;
+        before: HTMLElement | null;
+      }
+    | undefined = undefined,
 ): RealNode[] {
   const map = NodeMap(prev);
   for (let i = 0; i < next.length; i++) {
     next[i] = update(next[i], map.remove(next[i])) as StringVirtualNode;
   }
   if (insert) {
-    insertAll(insert.parent, next as RealNode[], insert.before)
+    insertAll(insert.parent, next as RealNode[], insert.before);
   }
   map.destroy();
   return next as RealNode[];
@@ -131,6 +133,8 @@ export function create(data: StringVirtualNode | any): RealNode {
   return node;
 }
 
+type InnerHTML = { __html: string };
+
 export function setAttribute(
   node: ElementNode,
   name: string,
@@ -142,6 +146,10 @@ export function setAttribute(
   }
   if (name === 'checked') {
     (node.element as HTMLInputElement).checked = !!value;
+    return;
+  }
+  if (name === 'dangerouslySetInnerHTML') {
+    (node.element as HTMLElement).innerHTML = (value as InnerHTML).__html;
     return;
   }
   if (/^on/.test(name)) {
