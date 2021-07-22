@@ -43,6 +43,7 @@ export default {
               'useEffect',
               'useRef',
               'useMemo',
+              '__html',
               ...domprops,
             ],
           },
