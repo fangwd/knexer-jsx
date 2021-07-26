@@ -176,9 +176,7 @@ export function setAttribute(
     }
     node.element.style.cssText = value;
   } else {
-    if (isString(value)) {
-      node.element.setAttribute(name, value as string);
-    }
+    node.element.setAttribute(name.toLocaleLowerCase(), value as string);
   }
 }
 

@@ -158,7 +158,7 @@ describe('setAttribute()', () => {
     const src = new Date() as any;
     const data = <img src={src} />;
     const node = create(data) as ElementNode;
-    expect(node.element.getAttribute('src')).toBe(null);
+    expect(node.element.getAttribute('src')).toBe(src.toString());
   });
 
   test('setting value', () => {
@@ -320,4 +320,11 @@ describe('update()', () => {
     expect(elem.style.cssText).toBe('color: blue;');
     expect(elem.getAttribute('href')).toBe('/');
   });
+
+  test('tabIndex', () => {
+    const node = create(<div tabIndex={0}></div>) as ElementNode;
+    const elem = node.element;
+    expect(elem.getAttribute('tabindex')).toBe('0');
+  });
+
 });
