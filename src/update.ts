@@ -19,9 +19,9 @@ export function updateAll(
   prev: RealNode[],
   insert:
     | {
-        parent: HTMLElement;
-        before: HTMLElement | null;
-      }
+      parent: HTMLElement;
+      before: HTMLElement | null;
+    }
     | undefined = undefined,
 ): RealNode[] {
   const map = NodeMap(prev);
@@ -128,7 +128,7 @@ export function create(data: StringVirtualNode | any): RealNode {
     insertAll(node.element, node.children, null);
   } else {
     node = data as ComponentNode;
-    node.result = execute(node).map((entry) => create(entry));
+    node.result = execute(node).filter(entry => entry).map((entry) => create(entry));
   }
   return node;
 }
