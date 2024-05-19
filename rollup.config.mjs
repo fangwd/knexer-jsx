@@ -9,13 +9,7 @@ export default {
   output: [
     {
       file: 'dist/knexer.js',
-      format: 'cjs',
-    },
-    {
-      file: 'dist/knexer.min.js',
-      format: 'iife',
-      name: 'knexer',
-    },
+    }
   ],
   plugins: [
     resolve(),
